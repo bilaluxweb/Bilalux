@@ -1,0 +1,1301 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
+
+/* --- Base Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    border: none;
+    outline: none;
+    font-family: "Poppins", sans-serif;
+}
+
+:root {
+    /* Dark Mode Colors (Default) */
+    --bg-color: #1A1A2E;
+    --second-bg-color: #2E3A4E;
+    --main-color: #E0BBE4; /* Soft Lavender */
+    --white-color: #EAEAEA; /* Off-white for text */
+    --disabled-color: #EAEAEA33; /* Translucent off-white */
+}
+
+/* Light Mode Colors */
+body.light-mode {
+    --bg-color: #F8F8F8; /* Very light gray */
+    --second-bg-color: #FFFFFF; /* Pure white */
+    --main-color: #8b70a3; /* Muted Plum (or #A36F8B for warmer) */
+    --white-color: #333333; /* Soft dark gray for text */
+    --disabled-color: #33333333; /* Translucent dark gray */
+}
+
+html {
+    font-size: 62.5%; /* 1rem = 10px */
+    scroll-behavior: smooth;
+    overflow-x: hidden; /* Prevent horizontal scroll due to animations */
+    scroll-padding-top: 8rem; /* Space for fixed header */
+}
+
+body {
+    color: var(--white-color);
+    background: var(--bg-color);
+    transition: background 0.5s ease, color 0.5s ease; /* Smooth transition for theme change */
+}
+
+/* --- Header & Navigation --- */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 2rem 9%;
+    background: var(--bg-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    transition: background 0.3s ease; /* Smooth transition for sticky header */
+}
+
+.logo {
+    font-size: 3rem;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: var(--white-color);
+    font-weight: 700;
+}
+
+nav a {
+    font-size: 2rem;
+    color: var(--white-color);
+    font-weight: 500;
+    margin-left: 3.5rem;
+    transition: color .5s;
+}
+
+nav a:hover,
+nav a.active {
+    color: var(--main-color);
+}
+
+#menu-icon {
+    font-size: 4rem;
+    display: none; /* Hidden by default, shown on smaller screens */
+    color: var(--white-color);
+    cursor: pointer;
+}
+
+/* Dark/Light Mode Toggle Icon Styling - Desktop/Larger Screens */
+#dark-mode-toggle {
+    font-size: 3rem; /* Slightly smaller than menu icon */
+    color: var(--white-color);
+    cursor: pointer;
+    
+    position: absolute; /* Position relative to its closest positioned ancestor (header) */
+    top: 50%; /* Vertically center it in the header */
+    right: 2.5%; /* Adjust this value to control how close it is to the right edge */
+    transform: translateY(-50%); /* Fine-tune vertical centering */
+    z-index: 101; /* Ensure it's above other header elements */
+}
+
+#dark-mode-toggle:hover {
+    color: var(--white-color); /* Icon remains its default color on hover */
+}
+
+/* Change icon when in light mode */
+body.light-mode #dark-mode-toggle {
+    color: var(--white-color); /* Maintain readability in light mode */
+}
+
+
+/* --- Global Section Styles --- */
+section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    padding: 10rem 9% 5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    /* Base for animation - elements within will animate based on this class */
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out; /* Adjusted speed */
+}
+
+/* Base class for when a section becomes visible */
+section.show-animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Reusable Components --- */
+.heading {
+    font-size: 4.5rem;
+    text-align: center;
+    margin: 2rem 0; /* Adjusted margin for better spacing */
+}
+
+.heading span {
+    color: var(--main-color);
+}
+
+.btn {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background: var(--main-color);
+    border: .2rem solid var(--main-color);
+    border-radius: 4rem;
+    box-shadow: 0 0 1rem var(--main-color);
+    font-size: 1.6rem;
+    color: var(--bg-color);
+    font-weight: 500;
+    transition: .5s;
+}
+
+.btn:hover {
+    background: transparent;
+    color: var(--main-color);
+    box-shadow: none;
+}
+
+/* --- SECTION SPECIFIC STYLES & ANIMATIONS --- */
+
+/* Home Section */
+.home {
+    flex-direction: row;
+    justify-content: center;
+    gap: 5rem;
+    text-align: left;
+}
+
+.home-detail h1 {
+    font-size: clamp(3.5rem, 10vw, 5.5rem);
+}
+
+.home-detail h2 {
+    display: inline-block;
+    font-size: 3.2rem;
+    margin-top: -1rem;
+}
+
+/* Typing Effect for H2 Span */
+.home-detail h2 span {
+    position: relative;
+    display: inline-block;
+    color: transparent;
+    -webkit-text-stroke: .07rem var(--main-color);
+    animation: display-text 16s linear infinite;
+    animation-delay: calc(-4s * var(--i));
+}
+
+@keyframes display-text {
+    25%, 100% {
+        display: none;
+    }
+}
+
+.home-detail h2 span::before {
+    content: attr(data-text);
+    position: absolute;
+    width: 0;
+    border-right: .2rem solid var(--main-color);
+    color: var(--main-color);
+    white-space: nowrap;
+    overflow: hidden;
+    animation: fill-text 4s linear infinite;
+}
+
+@keyframes fill-text {
+    10%, 100% {
+        width: 0;
+    }
+    70%, 90% {
+        width: 100%;
+    }
+}
+
+.home-detail p {
+    font-size: 1.6rem;
+    margin: 1rem 0 2.5rem;
+}
+
+.home-detail .btn-sci {
+    display: flex;
+    align-items: center;
+}
+
+.home-detail .btn-sci .sci {
+    margin-left: 2rem;
+}
+
+.home-detail .btn-sci .sci a {
+    display: inline-flex;
+    padding: .8rem;
+    border: .2rem solid var(--main-color);
+    border-radius: 50%;
+    font-size: 2rem;
+    color: var(--main-color);
+    margin: 0 .8rem;
+    transition: .5s;
+}
+
+.home-detail .btn-sci .sci a:hover {
+    background: var(--main-color);
+    color: var(--bg-color);
+    box-shadow: 0 0 1rem var(--main-color);
+}
+
+.home-img .img-box {
+    position: relative;
+    width: 32vw;
+    height: 32vw;
+    border-radius: 50%;
+    padding: .5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Spinning border effect */
+.home-img .img-box::before,
+.home-img .img-box::after {
+    content: '';
+    position: absolute;
+    width: 50rem;
+    height: 50rem;
+    background: conic-gradient(transparent, transparent, transparent, var(--main-color));
+    transform: rotate(0deg);
+    animation: rotate-border 10s linear infinite;
+}
+
+.home-img .img-box::after {
+    animation-delay: -5s;
+}
+
+@keyframes rotate-border {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.home-img .img-box .img-item {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-color);
+    border-radius: 50%;
+    border: .01rem solid var(--bg-color);
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.home-img .img-box .img-item img {
+    position: absolute;
+    top: 3rem;
+    display: block;
+    width: 85%;
+    object-fit: cover;
+    /* Removed: mix-blend-mode: lighten; */
+}
+
+/* Adjust mix-blend-mode for light mode image */
+body.light-mode .home-img .img-box .img-item img {
+    mix-blend-mode: multiply; /* Or 'normal' if 'multiply' is too dark */
+}
+
+
+/* Home Section Entry Animations (Enhanced) */
+.home .home-detail {
+    opacity: 0;
+    transform: translateX(-100px);
+    filter: blur(5px);
+}
+.home .home-img {
+    opacity: 0;
+    transform: translateX(100px);
+    filter: blur(5px);
+}
+.home.show-animate .home-detail {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out, filter 0.8s ease-out; /* Adjusted speed */
+    transition-delay: 0.2s; /* Adjusted delay */
+}
+.home.show-animate .home-img {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out, filter 0.8s ease-out; /* Adjusted speed */
+    transition-delay: 0.4s; /* Adjusted delay */
+}
+.home-img .img-box {
+    opacity: 0;
+    transform: scale(0.8) rotate(-15deg);
+    transition: all 0.9s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Adjusted speed */
+    transition-delay: 0.6s; /* Adjusted delay */
+}
+.home.show-animate .home-img .img-box {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+.home-img .img-box .img-item img {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.9s ease-out, transform 0.9s ease-out; /* Adjusted speed */
+    transition-delay: 0.8s; /* Adjusted delay */
+}
+.home.show-animate .home-img .img-box .img-item img {
+    opacity: 1;
+    transform: scale(1);
+}
+
+
+/* Services Section */
+
+.services-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.services-container .services-box {
+    padding: 3rem 2.5rem;
+    background: var(--second-bg-color);
+    border: .2rem solid var(--second-bg-color);
+    border-radius: 1rem;
+    transition: .5s;
+}
+
+.services-container .services-box:hover {
+    border-color: var(--main-color);
+    transform: scale(1.02); /* Slight scale on hover */
+}
+
+.services-box .icon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.services-box .icon i {
+    font-size: 4.5rem;
+    transition: .5s;
+}
+
+.services-box:hover .icon :not(a i) {
+    color: var(--main-color);
+}
+
+.services-box .icon a {
+    display: inline-flex;
+    background: var(--white-color);
+    border-radius: 50%;
+    padding: 1rem;
+    transition: .5s;
+}
+
+.services-box:hover .icon a {
+    background: var(--main-color);
+}
+
+.services-box .icon a i {
+    font-size: 3rem;
+    color: var(--bg-color);
+    transform: rotate(225deg);
+}
+
+.services-box .icon a:hover i {
+    transform: rotate(180deg);
+}
+
+.services-box h3 {
+    font-size: 3rem;
+    margin: .5rem 0 2rem;
+    transition: .5s;
+}
+
+.services-box:hover h3 {
+    color: var(--main-color);
+}
+
+.services-box p {
+    font-size: 1.6rem;
+}
+
+/* Services Section Entry Animations */
+#services .heading {
+    opacity: 0;
+    transform: translateY(80px);
+    filter: blur(5px);
+}
+#services .services-container {
+    opacity: 0;
+    transform: translateY(100px);
+    filter: blur(5px);
+}
+#services.show-animate .heading {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+    transition: opacity 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55), transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55), filter 0.8s ease-out; /* Adjusted speed */
+    transition-delay: 0.1s; /* Adjusted delay */
+}
+#services.show-animate .services-container {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+    transition: opacity 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55), transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55), filter 0.8s ease-out; /* Adjusted speed */
+    transition-delay: 0.3s; /* Adjusted delay */
+}
+#services.show-animate .services-container .services-box {
+    opacity: 0;
+    transform: translateY(50px);
+    filter: blur(3px);
+    animation: fadeInSlideUpBlur 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; /* Adjusted animation speed */
+    animation-delay: var(--delay);
+}
+/* Keyframe for staggered services boxes */
+@keyframes fadeInSlideUpBlur {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+
+/* Resume Section */
+.resume-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 5rem;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.resume-box h2 {
+    font-size: 4.5rem;
+}
+
+.resume-box p {
+    font-size: 1.6rem;
+}
+
+.resume-box .desc {
+    margin: 2rem 0 2.5rem;
+}
+
+.resume-box .resume-btn {
+    width: 100%;
+    height: 5.3rem;
+    background: var(--second-bg-color);
+    border: .2rem solid var(--second-bg-color);
+    font-size: 1.6rem;
+    color: var(--white-color);
+    font-weight: 500;
+    margin-bottom: 2rem;
+    border-radius: .8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.resume-box .resume-btn:hover {
+    border-color: var(--main-color);
+    color: var(--main-color);
+}
+
+.resume-box .resume-btn.active {
+    border-color: var(--main-color);
+    color: var(--main-color);
+}
+
+.resume-detail {
+    display: none; /* Hidden by default, shown by JS */
+}
+
+.resume-detail.active {
+    display: block;
+}
+
+.resume-box .heading {
+    font-size: 3.5rem;
+    text-align: left;
+}
+
+.resume-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    gap: 2rem;
+    height: 45rem; /* Fixed height for scrollable area */
+    overflow: auto;
+}
+
+/* Custom scrollbar for resume-list */
+.resume-list::-webkit-scrollbar {
+    width: .7rem;
+}
+.resume-list::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 1rem;
+}
+.resume-list:hover::-webkit-scrollbar-thumb {
+    background: var(--main-color);
+}
+
+.resume-list .resume-item {
+    background: var(--second-bg-color);
+    border-radius: .8rem;
+    padding: 3rem 2.5rem;
+    height: calc((45rem - 2rem) / 2); /* Calculate height for two rows with gap */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.resume-item .year {
+    color: var(--main-color);
+}
+
+.resume-item h3 {
+    font-size: 2.2rem;
+}
+
+.resume-item .company {
+    position: relative;
+    margin-left: 2rem;
+    margin-bottom: 2rem;
+}
+
+.resume-item .company::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: .5rem;
+    background: var(--main-color);
+    border-radius: 50%;
+    margin-left: -2rem;
+}
+
+/* Skills subsection */
+.resume-detail.skills .resume-list {
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    height: auto;
+    overflow: visible;
+}
+
+.resume-detail.skills .resume-item {
+    position: relative;
+    align-items: center;
+    height: auto;
+}
+
+.resume-detail.skills .resume-item i {
+    font-size: 8.5rem;
+    transition: .5s;
+}
+
+.resume-detail.skills .resume-item:hover i {
+    color: var(--main-color);
+}
+
+.resume-detail.skills .resume-item span {
+    position: absolute;
+    top: -20%;
+    background: var(--white-color);
+    color: var(--bg-color);
+    font-size: 1.6rem;
+    padding: .5rem 1rem;
+    border-radius: .6rem;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(.9);
+    transition: .2s;
+}
+
+.resume-detail.skills .resume-item:hover span {
+    top: -25%;
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* About Me subsection */
+.resume-detail.about .resume-list {
+    height: auto;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+}
+
+.resume-detail.about .resume-item {
+    height: auto;
+    padding: 0 0 .5rem;
+    background: transparent;
+}
+
+.resume-detail.about .resume-item p {
+    color: var(--main-color);
+}
+
+.resume-detail.about .resume-item p span {
+    color: var(--white-color);
+    margin-left: 1rem;
+    font-size: 1.8rem;
+}
+
+/* Resume Section Entry Animations */
+#resume .resume-box:first-child h2,
+#resume .resume-box:first-child .desc,
+#resume .resume-box:first-child .resume-btn {
+    opacity: 0;
+    transform: translateX(-80px);
+    filter: blur(5px);
+}
+#resume .resume-box:last-child .heading,
+#resume .resume-box:last-child .resume-list {
+    opacity: 0;
+    transform: translateX(80px);
+    filter: blur(5px);
+}
+#resume.show-animate .resume-box:first-child h2 {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out, filter 0.7s ease-out; /* Adjusted speed */
+    transition-delay: 0.1s; /* Adjusted delay */
+}
+#resume.show-animate .resume-box:first-child .desc {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out, filter 0.7s ease-out; /* Adjusted speed */
+    transition-delay: 0.2s; /* Adjusted delay */
+}
+#resume.show-animate .resume-box:first-child .resume-btn {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out, filter 0.7s ease-out; /* Adjusted speed */
+    transition-delay: 0.3s; /* Adjusted delay */
+}
+#resume.show-animate .resume-box:last-child .heading {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out, filter 0.7s ease-out; /* Adjusted speed */
+    transition-delay: 0.4s; /* Adjusted delay */
+}
+#resume.show-animate .resume-box:last-child .resume-list {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out, filter 0.7s ease-out; /* Adjusted speed */
+    transition-delay: 0.5s; /* Adjusted delay */
+}
+/* Staggered animation for resume items */
+#resume.show-animate .resume-list .resume-item {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    filter: blur(3px);
+    animation: fadeInSlideUpScaleBlur 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards; /* Adjusted animation speed */
+    animation-delay: var(--delay); /* Using --delay from JS */
+}
+@keyframes fadeInSlideUpScaleBlur {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+
+/* Portfolio Section */
+.portfolio-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 3rem;
+}
+
+.portfolio-detail {
+    display: none;
+}
+
+.portfolio-detail.active {
+    display: block;
+}
+
+.portfolio-box .numb {
+    font-size: 8rem;
+    -webkit-text-stroke: .07rem var(--white-color);
+    color: transparent;
+    line-height: 1;
+}
+
+.portfolio-box h3 {
+    font-size: 3.5rem;
+    margin: .8rem 0 2rem;
+}
+
+.portfolio-box p {
+    font-size: 1.6rem;
+}
+
+.portfolio-box .tech {
+    margin: 2rem 0;
+    color: var(--main-color);
+    border-bottom: .1rem solid var(--white-color);
+    padding-bottom: 2rem;
+}
+
+.portfolio-box .live-github a {
+    position: relative;
+    display: inline-flex;
+    padding: 1.3rem;
+    font-size: 3rem;
+    color: var(--white-color);
+    border-radius: 50%;
+    background: var(--second-bg-color);
+    transition: .5s;
+}
+
+.portfolio-box .live-github a:hover {
+    color: var(--main-color);
+}
+
+.portfolio-box .live-github a:first-child {
+    margin-right: 1.5rem;
+}
+
+.portfolio-box .live-github a:first-child i {
+    transform: rotate(135deg);
+}
+
+.portfolio-box .live-github a span {
+    position: absolute;
+    top: -60%;
+    left: 50%;
+    transform: translateX(-50%) scale(.9);
+    font-size: 1.6rem;
+    white-space: nowrap;
+    padding: .5rem 1rem;
+    border-radius: .6rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: .2s;
+}
+
+.portfolio-box .live-github a:hover span {
+    top: -70%;
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+}
+
+.portfolio-box .portfolio-carousel {
+    width: 100%;
+    height: 45rem;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.portfolio-carousel .img-slide {
+    display: grid;
+    grid-auto-flow: column; /* Lays out grid items in a row */
+    grid-auto-columns: 100%; /* Each item takes 100% of the column width */
+    gap: 2rem;
+    height: inherit;
+    transition: transform .5s ease-in-out; /* Smooth slide for carousel */
+}
+
+.portfolio-carousel .img-item {
+    height: inherit;
+}
+
+.portfolio-carousel .img-item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1rem;
+}
+
+.portfolio-box .navigation {
+    text-align: right;
+    margin: 2rem 0; /* Adjusted margin */
+}
+
+.portfolio-box .navigation button {
+    display: inline-flex;
+    padding: .4rem;
+    background: var(--second-bg-color);
+    border: .2rem solid var(--main-color);
+    border-radius: .6rem;
+    font-size: 4rem;
+    color: var(--main-color);
+    cursor: pointer;
+    transition: .3s; /* Smooth transition for button states */
+}
+
+.portfolio-box .navigation button.disabled {
+    border-color: var(--second-bg-color);
+    color: var(--disabled-color);
+    cursor: not-allowed; /* Indicate disabled state */
+}
+
+.portfolio-box .navigation .arrow-right {
+    margin-left: 1.5rem;
+}
+
+/* Portfolio Section Entry Animations */
+#portfolio .heading {
+    opacity: 0;
+    transform: translateY(30px);
+    filter: blur(5px);
+}
+#portfolio .portfolio-box .numb,
+#portfolio .portfolio-box h3,
+#portfolio .portfolio-box p,
+#portfolio .portfolio-box .tech,
+#portfolio .portfolio-box .live-github {
+    opacity: 0;
+    transform: translateY(50px);
+    filter: blur(3px);
+}
+#portfolio .portfolio-carousel {
+    opacity: 0;
+    transform: scale(0.7) rotate(5deg);
+    filter: blur(8px);
+}
+#portfolio.show-animate .heading {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out, filter 0.7s ease-out; /* Adjusted speed */
+    transition-delay: 0.1s; /* Adjusted delay */
+}
+#portfolio.show-animate .portfolio-box .numb {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out, filter 0.6s ease-out; /* Adjusted speed */
+    transition-delay: 0.2s; /* Adjusted delay */
+}
+#portfolio.show-animate .portfolio-box h3 {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out, filter 0.6s ease-out; /* Adjusted speed */
+    transition-delay: 0.3s; /* Adjusted delay */
+}
+#portfolio.show-animate .portfolio-box p {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out, filter 0.6s ease-out; /* Adjusted speed */
+    transition-delay: 0.4s; /* Adjusted delay */
+}
+#portfolio.show-animate .portfolio-box .tech {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out, filter 0.6s ease-out; /* Adjusted speed */
+    transition-delay: 0.5s; /* Adjusted delay */
+}
+#portfolio.show-animate .portfolio-box .live-github {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out, filter 0.6s ease-out; /* Adjusted speed */
+    transition-delay: 0.6s; /* Adjusted delay */
+}
+#portfolio.show-animate .portfolio-carousel {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    filter: blur(0);
+    transition: opacity 0.9s cubic-bezier(0.68, -0.55, 0.27, 1.55), transform 0.9s cubic-bezier(0.68, -0.55, 0.27, 1.55), filter 0.9s ease-out; /* Adjusted speed */
+    transition-delay: 0.7s; /* Adjusted delay */
+}
+
+
+/* Contact Section */
+.contact-container {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 3rem;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 3rem;
+}
+
+.contact-container .contact-box:first-child {
+    align-self: center;
+}
+
+.contact-box h2 {
+    font-size: 4.5rem;
+}
+
+.contact-box p {
+    font-size: 1.6rem;
+}
+
+.contact-box .desc {
+    margin: 1.5rem 0 2.5rem;
+}
+
+.contact-box .contact-detail {
+    display: flex;
+    align-items: center;
+    margin: 2rem 0;
+}
+
+.contact-detail i {
+    display: inline-flex;
+    background: var(--second-bg-color);
+    color: var(--main-color);
+    font-size: 3rem;
+    padding: 1.2rem;
+    border-radius: .6rem;
+    margin-right: 1.5rem;
+}
+
+.contact-detail .detail p:first-child {
+    color: var(--main-color);
+}
+
+.contact-box form {
+    background: var(--second-bg-color);
+    padding: 2.5rem 3.5rem 3.5rem;
+    border-radius: 1rem;
+    text-align: center;
+}
+
+.contact-box .heading {
+    font-size: 3.5rem;
+}
+
+form .input-box {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem; /* Reduced gap a bit */
+}
+
+.field {
+    position: relative;
+}
+
+.field .item {
+    width: 100%;
+    padding: 1.5rem; /* Unified padding */
+    background: var(--bg-color);
+    border: .15rem solid var(--bg-color);
+    border-radius: .6rem;
+    font-size: 1.6rem;
+    color: var(--white-color);
+    transition: border-color 0.3s ease;
+}
+
+.field .item::placeholder {
+    color: var(--white-color);
+    opacity: 0.4;
+}
+
+.field .item:focus {
+    border-color: var(--main-color);
+}
+
+.textarea-field {
+    grid-column: 1 / -1; /* Make textarea span both columns */
+}
+
+.textarea-field .item {
+    height: 18rem; /* Adjusted height */
+    resize: none;
+}
+
+.field .error-txt {
+    font-size: 1.4rem; /* Slightly smaller error text */
+    color: #d93025;
+    text-align: left;
+    display: none; /* Hidden by default */
+    margin-top: 0.5rem; /* Add some space above */
+}
+
+.contact-box .btn {
+    margin-top: 2rem;
+    cursor: pointer;
+}
+
+#contact {
+    padding-bottom: 10rem;
+}
+
+/* Contact Section Entry Animations */
+#contact .contact-box:first-child h2,
+#contact .contact-box:first-child .desc,
+#contact .contact-box:first-child .contact-detail {
+    opacity: 0;
+    transform: translateX(-80px);
+    filter: blur(5px);
+}
+#contact .contact-box:last-child form {
+    opacity: 0;
+    transform: translateX(80px) scale(0.9);
+    filter: blur(5px);
+}
+#contact.show-animate .contact-box:first-child h2 {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out, filter 0.7s ease-out; /* Adjusted speed */
+    transition-delay: 0.1s; /* Adjusted delay */
+}
+#contact.show-animate .contact-box:first-child .desc {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out, filter 0.7s ease-out; /* Adjusted speed */
+    transition-delay: 0.2s; /* Adjusted delay */
+}
+#contact.show-animate .contact-box:first-child .contact-detail {
+    opacity: 1;
+    transform: translateX(0);
+    filter: blur(0);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out, filter 0.7s ease-out; /* Adjusted speed */
+    transition-delay: 0.3s; /* Adjusted delay */
+}
+#contact.show-animate .contact-box:last-child form {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out, filter 0.7s ease-out; /* Adjusted speed */
+    transition-delay: 0.4s; /* Adjusted delay */
+}
+
+/* --- Footer Section --- */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 3rem 9%;
+    background: var(--bg-color);
+    border-top: .1rem solid var(--second-bg-color);
+}
+
+.footer-text p {
+    font-size: 1.6rem;
+    color: var(--white-color);
+}
+
+.footer-iconTop a {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    background: var(--main-color);
+    border-radius: 50%;
+    transition: all .5s ease;
+    box-shadow: 0 0 1rem var(--main-color);
+}
+
+.footer-iconTop a:hover {
+    background: var(--white-color);
+    color: var(--main-color);
+    box-shadow: 0 0 2rem var(--main-color);
+    transform: translateY(-0.5rem);
+}
+
+.footer-iconTop a i {
+    font-size: 2.4rem;
+    color: var(--bg-color);
+    transition: all .5s ease;
+}
+
+.footer-iconTop a:hover i {
+    color: var(--main-color);
+}
+
+
+/* --- Media Queries (Responsive Design) --- */
+@media screen and (max-width: 1200px) {
+    html {
+        font-size: 55%;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    header {
+        padding: 2rem 4%;
+    }
+    section {
+        padding: 10rem 4% 2rem; /* Adjust padding for smaller screens */
+    }
+    /* Adjust toggle position for smaller desktop screens (keeping original intent here) */
+    #dark-mode-toggle {
+        right: 1%; /* Adjusted for 4% padding */
+    }
+}
+
+@media screen and (max-width: 810px) {
+    #menu-icon {
+        display: block; /* Show menu icon for mobile */
+        order: 3; /* Places menu icon last (rightmost) */
+    }
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 2rem 4%;
+        gap: 1.5rem; /* Creates space between flex items */
+    }
+
+    .logo {
+        order: 1; /* Ensures logo is always first (leftmost) */
+        margin-right: auto; /* Pushes subsequent items to the right */
+    }
+
+    #dark-mode-toggle {
+        display: block; /* Ensure it's visible */
+        position: static; /* Crucial: Override absolute positioning from desktop */
+        top: auto; /* IMPORTANT: Reset top property */
+        transform: none; /* IMPORTANT: Reset any previous transformations */
+        order: 2; /* Places dark mode toggle between logo and menu icon */
+        margin: 0; /* Reset any specific margins from desktop or previous rules */
+    }
+    
+    /* Ensure the toggle and menu icon are aligned well */
+    #dark-mode-toggle, #menu-icon {
+        flex-shrink: 0; /* Prevent icons from shrinking */
+    }
+
+    nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        padding: 1rem 0;
+        background: var(--bg-color);
+        border-top: .1rem solid rgba(0, 0, 0, .2);
+        box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .2);
+        text-align: center;
+        display: none; /* Hidden by default */
+        transition: all 0.3s ease-in-out; /* Smooth toggle */
+    }
+
+    nav.active {
+        display: block; /* Show when active */
+    }
+
+    nav a {
+        display: block;
+        margin: 4rem 0; /* More spacing for mobile links */
+    }
+    .contact-box .field-box {
+        grid-template-columns: 1fr; /* Stack contact form fields */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .home {
+        text-align: center;
+        flex-direction: column-reverse; /* Stack home content with image on top */
+        justify-content: center;
+        gap: 2rem;
+    }
+
+    .home-img .img-box {
+        width: 35rem;
+        height: 35rem;
+    }
+
+     .home-detail .btn-sci {
+        flex-direction: column-reverse; /* Stack buttons/social for smaller screens */
+    }
+
+    .home-detail .btn-sci .sci {
+        margin-left: 0;
+        margin-bottom: 2rem;
+    }
+
+    .resume-container,
+    .portfolio-container,
+    .contact-container {
+        grid-template-columns: 1fr; /* Single column layout for most sections */
+    }
+
+    .resume-container {
+        gap: 3rem;
+    }
+
+    .portfolio-container .portfolio-box:first-child {
+        order: 1; /* Keep portfolio details above image carousel on mobile */
+    }
+
+    .contact-box .field-box {
+        grid-template-columns: repeat(2, 1fr); /* Revert to 2 cols for slightly larger phones if needed, or 1 if removed the 810px rule */
+    }
+
+}
+
+@media screen and (max-width: 600px) {
+    .home-img .img-box {
+        width: 30rem;
+        height: 30rem;
+    }
+    .contact-box .field-box {
+        grid-template-columns: 1fr; /* Force single column on smaller phones */
+    }
+
+}
+
+@media screen and (max-width: 550px) {
+    .footer {
+        flex-direction: column-reverse;
+        text-align: center;
+    }
+
+    .footer-text {
+        margin-top: 2rem;
+        width: 100%;
+    }
+
+    .footer-iconTop {
+        margin-bottom: 2rem;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    html {
+        font-size: 50%; /* Further reduction for very small screens */
+    }
+}
+
+@media screen and (max-width: 400px) {
+    /* Center text for these elements on very small screens */
+    .home-detail,
+    .resume-box h2,
+    .resume-box .heading,
+    .resume-box .desc,
+    .resume-detail.about .resume-item {
+        text-align: center;
+    }
+
+    .contact-box form {
+        padding: 2.5rem 3rem 3.5rem;
+    }
+
+    .contact-box h2 {
+        font-size: 3.5rem;
+    }
+}
